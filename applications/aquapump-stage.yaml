@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aquapump-stage
+  namespace: argocd
+spec:
+  project: aquapump
+  source:
+    repoURL: https://github.com/orivann/aquapump-app.git
+    targetRevision: main
+    path: deploy/helm/aquapump
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: aquapump-stage
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

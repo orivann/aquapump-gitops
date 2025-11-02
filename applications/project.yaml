@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: aquapump
+  namespace: argocd
+spec:
+  description: Project for all Aquapump environments
+  sourceRepos:
+    - https://github.com/orivann/aquapump-app.git
+  destinations:
+    - namespace: aquapump
+      server: https://kubernetes.default.svc
+    - namespace: aquapump-dev
+      server: https://kubernetes.default.svc
+    - namespace: aquapump-stage
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  namespaceResourceWhitelist:
+    - group: '*'
+      kind: '*'
