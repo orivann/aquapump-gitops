@@ -6,7 +6,7 @@ This repository contains ArgoCD Application manifests for all environments.
 
 - **aquapump-dev** – development version (auto-updates on push)
 - **aquapump-stage** – staging testing environment
-- **aquapump-prod** – production version
+- **aquapump-prod** – production version (tracks the `refs/tags/prod` tag in the application repository; update or retag this reference to promote a release)
 
 ## Bootstrap
 

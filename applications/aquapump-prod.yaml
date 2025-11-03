@@ -7,7 +7,7 @@ spec:
   project: aquapump
   source:
     repoURL: https://github.com/orivann/aquapump-app.git
-    targetRevision: main
+    targetRevision: refs/tags/prod
     path: deploy/helm/aquapump
     helm:
       valueFiles:
