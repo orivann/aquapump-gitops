@@ -1,0 +1,12 @@
+---
+# Overrides for the dev environment.
+# Track the latest image pushed by CI rather than a static dev tag.
+backend:
+  image:
+    tag: latest
+  existingSecret: aquapump-secrets
+
+frontend:
+  image:
+    tag: latest
+  existingSecret: aquapump-secrets

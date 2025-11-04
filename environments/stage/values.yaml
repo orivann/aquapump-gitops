@@ -1,0 +1,7 @@
+---
+# Stage environment tracks the same images as production but without prod-only secrets.
+backend:
+  existingSecret: aquapump-secrets
+
+frontend:
+  existingSecret: aquapump-secrets
