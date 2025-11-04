@@ -85,7 +85,7 @@ jobs:
 
       - name: Dry-run apply manifests with kubectl
         run: |
-          # Use --validate=false to avoid contacting a real API server; schema checks are handled by kubeconform
+          # Skip contacting a real API server; kubeconform handles schema checks
           find . -name '*.yaml' -o -name '*.yml' | while read -r file; do
             kubectl apply --dry-run=client --validate=false -f "$file"
           done
