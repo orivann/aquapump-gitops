@@ -1,3 +1,4 @@
+---
 # ==============================================================================
 # Aquapump GitOps Manifest Validation Workflow
 # ----------------------------------------------------------------------------
@@ -6,7 +7,7 @@
 # ==============================================================================
 name: Aquapump GitOps Validation
 
-on:
+'on':
   push:
     branches:
       - main
@@ -53,7 +54,8 @@ jobs:
 
       - name: Install kubeconform
         run: |
-          curl -L "https://github.com/yannh/kubeconform/releases/download/v0.6.5/kubeconform-linux-amd64.tar.gz" -o kubeconform.tar.gz
+          KUBECONFORM_URL="https://github.com/yannh/kubeconform/releases/download/v0.6.5/kubeconform-linux-amd64.tar.gz"
+          curl -L "$KUBECONFORM_URL" -o kubeconform.tar.gz
           tar -xf kubeconform.tar.gz kubeconform
           sudo mv kubeconform /usr/local/bin/
           rm kubeconform.tar.gz
