@@ -28,3 +28,5 @@ kubectl get secret aquapump-secrets -n aquapump -o yaml | \
 kubectl get secret aquapump-secrets -n aquapump -o yaml | \
   sed 's/namespace: aquapump/namespace: aquapump-stage/' | kubectl apply -f -
 ```
+
+For local development clusters, the dev environment ships with `ingress.enabled=false` to avoid host collisions with staging/production.

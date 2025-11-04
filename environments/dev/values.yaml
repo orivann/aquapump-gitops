@@ -10,3 +10,6 @@ frontend:
   image:
     tag: latest
   existingSecret: aquapump-secrets
+
+ingress:
+  enabled: false
