@@ -1,5 +1,6 @@
 ---
 ingress:
+  enabled: false
   frontend:
     hosts:
       - stage.aqua-pump.net
