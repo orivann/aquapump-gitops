@@ -1,14 +1,14 @@
 ---
-# Stage environment tracks the same images as production but without prod-only secrets.
+ingress:
+  frontend:
+    hosts:
+      - host: stage.aqua-pump.net     
+  backend:
+    host: api-stage.aqua-pump.net
+
 backend:
   existingSecret: aquapump-secrets
 
 frontend:
   existingSecret: aquapump-secrets
 
-ingress:
-  frontend:
-    hosts:
-      - stage.aqua-pump.net      
-  backend:
-    host: api-stage.aqua-pump.net
