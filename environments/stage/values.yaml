@@ -2,7 +2,7 @@
 ingress:
   frontend:
     hosts:
-      - host: stage.aqua-pump.net     
+      - stage.aqua-pump.net
   backend:
     host: api-stage.aqua-pump.net
 
@@ -11,4 +11,3 @@ backend:
 
 frontend:
   existingSecret: aquapump-secrets
-
