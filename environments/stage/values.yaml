@@ -5,3 +5,10 @@ backend:
 
 frontend:
   existingSecret: aquapump-secrets
+
+ingress:
+  frontend:
+    hosts:
+      - stage.aqua-pump.net      
+  backend:
+    host: api-stage.aqua-pump.net
