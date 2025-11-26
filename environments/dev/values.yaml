@@ -1,15 +1,59 @@
 ---
-# Overrides for the dev environment.
-# Track the latest image pushed by CI rather than a static dev tag.
-backend:
-  image:
-    tag: latest
-  existingSecret: aquapump-secrets
+global:
+  env: dev
+  domain: aqua-pump.net
+  secretPrefix: dev/aquapump
 
 frontend:
   image:
     tag: latest
+    pullPolicy: Always
+  existingSecret: aquapump-secrets
+  backendProxy:
+    enabled: true
+    serviceUrl: "http://aquapump-dev-backend.aquapump-dev.svc.cluster.local:8000"
+
+backend:
+  image:
+    tag: latest
+    pullPolicy: Always
   existingSecret: aquapump-secrets
 
+externalSecret:
+  enabled: true
+  name: aquapump-secrets
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: aws-secretsmanager
+  target:
+    name: aquapump-secrets
+    creationPolicy: Owner
+
 ingress:
-  enabled: false
+  enabled: true
+  className: alb
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: aquapump-dev
+    external-dns.alpha.kubernetes.io/hostname: app.dev.aqua-pump.net
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+  hosts:
+    - host: app.dev.aqua-pump.net
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: aquapump-dev-frontend
+            port: 80
+        - path: /api
+          pathType: Prefix
+          service:
+            name: aquapump-dev-backend
+            port: 8000
+  tls:
+    - hosts:
+        - app.dev.aqua-pump.net
+      secretName: aquapump-dev-tls

@@ -1,33 +1,59 @@
 ---
-externalSecret:
-  enabled: true
-  secretStoreRef:
-    kind: ClusterSecretStore
-    name: aws-secrets
-  data:
-    - secretKey: SUPABASE_URL
-      remoteRef:
-        key: prod/aquapump
-        property: SUPABASE_URL
-    - secretKey: SUPABASE_SERVICE_ROLE_KEY
-      remoteRef:
-        key: prod/aquapump
-        property: SUPABASE_SERVICE_ROLE_KEY
-    - secretKey: AI_API_KEY
-      remoteRef:
-        key: prod/aquapump
-        property: AI_API_KEY
-    - secretKey: VITE_REACT_APP_API_BASE
-      remoteRef:
-        key: prod/aquapump
-        property: VITE_REACT_APP_API_BASE
-
-backend:
-  existingSecret: aquapump-secrets
+global:
+  env: prod
+  domain: aqua-pump.net
+  secretPrefix: prod/aquapump
 
 frontend:
+  image:
+    tag: latest
+    pullPolicy: Always
+  existingSecret: aquapump-secrets
+  backendProxy:
+    enabled: true
+    serviceUrl: "http://aquapump-prod-backend.aquapump.svc.cluster.local:8000"
+
+backend:
+  image:
+    tag: latest
+    pullPolicy: Always
   existingSecret: aquapump-secrets
 
-global:
-  imagePullSecrets:
-    - name: ecr-creds
+externalSecret:
+  enabled: true
+  name: aquapump-secrets
+  refreshInterval: 1h
+  secretStoreRef:
+    kind: ClusterSecretStore
+    name: aws-secretsmanager
+  target:
+    name: aquapump-secrets
+    creationPolicy: Owner
+
+ingress:
+  enabled: true
+  className: alb
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/group.name: aquapump-prod
+    external-dns.alpha.kubernetes.io/hostname: app.prod.aqua-pump.net
+    cert-manager.io/cluster-issuer: letsencrypt-dns
+  hosts:
+    - host: app.prod.aqua-pump.net
+      paths:
+        - path: /
+          pathType: Prefix
+          service:
+            name: aquapump-prod-frontend
+            port: 80
+        - path: /api
+          pathType: Prefix
+          service:
+            name: aquapump-prod-backend
+            port: 8000
+  tls:
+    - hosts:
+        - app.prod.aqua-pump.net
+      secretName: aquapump-prod-tls

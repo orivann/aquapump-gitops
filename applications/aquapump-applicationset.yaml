@@ -16,16 +16,16 @@ spec:
             targetRevision: main
           - name: prod
             namespace: aquapump
-            targetRevision: refs/tags/prod
+            targetRevision: main
   template:
     metadata:
       name: aquapump-{{name}}
     spec:
       project: aquapump
       sources:
-        - repoURL: https://github.com/orivann/aquapump-app.git
+        - repoURL: https://github.com/orivann/aquapump.git
           targetRevision: "{{targetRevision}}"
-          path: deploy/helm/aquapump
+          path: aquapump-app/deploy/helm/aquapump
           helm:
             valueFiles:
               - values.yaml

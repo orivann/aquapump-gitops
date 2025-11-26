@@ -7,6 +7,7 @@ metadata:
 spec:
   description: Project for all Aquapump environments
   sourceRepos:
+    - https://github.com/orivann/aquapump.git
     - https://github.com/orivann/aquapump-app.git
     - https://github.com/orivann/aquapump-gitops.git
   destinations:
