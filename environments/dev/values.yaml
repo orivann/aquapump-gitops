@@ -3,22 +3,19 @@ global:
   env: dev
   domain: aqua-pump.net
   secretPrefix: dev/aquapump
-
 frontend:
   image:
-    tag: latest
+    tag: dev-a555a7f
     pullPolicy: Always
   existingSecret: aquapump-secrets
   backendProxy:
     enabled: true
     serviceUrl: "http://aquapump-dev-backend.aquapump-dev.svc.cluster.local:8000"
-
 backend:
   image:
-    tag: latest
+    tag: dev-a555a7f
     pullPolicy: Always
   existingSecret: aquapump-secrets
-
 externalSecret:
   enabled: true
   name: aquapump-secrets
@@ -29,7 +26,6 @@ externalSecret:
   target:
     name: aquapump-secrets
     creationPolicy: Owner
-
 ingress:
   enabled: true
   className: alb
